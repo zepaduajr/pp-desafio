@@ -47,4 +47,4 @@ http://localhost/swagger
 
 Modelo de dados básico necessário para resolução da arquitetura proposta
 
-![alt text](https://github.com/zepaduajr/pp-backend/blob/master/modelo.png?raw=true)
+![alt text](https://github.com/zepaduajr/pp-desafio/blob/master/model.png?raw=true)

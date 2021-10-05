@@ -37,7 +37,7 @@ class TransactionRepository implements TransactionInterface
     private function updateWaitingForTransactionByStatus($transaction_id, $status): bool
     {
         return $this->transaction
-            ->where('transaction_id', $transaction_id)
+            ->where('id', $transaction_id)
             ->update(['status' => $status]);
     }
 }
