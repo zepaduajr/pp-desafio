@@ -19,7 +19,7 @@ docker-compose exec app php artisan queue:work
 ## Testes
 
 ```
-docker-compose exec app vendor/bin/phpunit
+docker-compose exec app php artisan test
 ```
 
 ## Endpoint
