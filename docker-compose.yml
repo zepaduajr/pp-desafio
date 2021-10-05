@@ -1,0 +1,69 @@
+version: '3.2'
+services:
+
+  #PHP Service
+  app:
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile
+    container_name: app_ppdesafio
+    environment:
+      SERVICE_NAME: app
+      SERVICE_TAGS: dev
+    working_dir: /var/www
+    volumes:
+      - ./:/var/www
+    networks:
+      - ppdesafio
+
+  #Nginx Service
+  webserver:
+    image: nginx:alpine
+    container_name: webserver_ppdesafio
+    restart: unless-stopped
+    tty: true
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./:/var/www
+      - ./docker/nginx/:/etc/nginx/conf.d/
+    networks:
+      - ppdesafio
+
+  #Postgres Service
+  db:
+    image: postgres:9.6.5
+    container_name: db_ppdesafio
+    ports:
+      - "${DB_PORT}:${DB_PORT}"
+    environment:
+      POSTGRES_DB: ${DB_DATABASE}
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      SERVICE_TAGS: dev
+      SERVICE_NAME: postgres
+    volumes:
+      - dbdata:/var/lib/postgresql/data
+    networks:
+      - ppdesafio
+
+  #Redis
+  redis:
+    container_name: redis_ppdesafio
+    image: redis:latest
+    command: redis-server --requirepass ${REDIS_PASSWORD}
+    environment:
+      REDIS_PASSWORD: ${REDIS_PASSWORD}
+    ports:
+      - "${REDIS_PORT}:${REDIS_PORT}"
+    networks:
+      - ppdesafio
+
+#Volumes
+volumes:
+  dbdata:
+    driver: local
+networks:
+  ppdesafio:
+    driver: bridge
