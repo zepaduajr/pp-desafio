@@ -65,13 +65,13 @@ class SendTransactionService
             }
 
             //Store the new balance of user
-            Cache::put(config('pp.cache.user-balance'). $payer['id'], $payer['balance'] - $data['value']);
+            Cache::put(config('pp.cache.user-balance'). $payer['id'], $payerBalance - $data['value']);
 
             //Create the transaction
             $transaction = $this->transactionRepository->store($data['payer'], $data['payee'], $data['value']);
             if (!$transaction) {
                 DB::rollBack();
-                Cache::put(config('pp.cache.user-balance'). $payer['id'], $payer['balance'] + $data['value']);
+                Cache::put(config('pp.cache.user-balance'). $payer['id'], $payerBalance + $data['value']);
                 return MsgResource::make('Transaction error', 400, 'Store transaction error. Try again.');
             }
 
