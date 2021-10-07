@@ -8,8 +8,8 @@ A implementação visa resolver o desafio levando os requisitos informados como 
 Após baixar o projeto, siga os comandos abaixo:
 
 ```
-docker-compose up -d
 cp .env.example .env
+docker-compose up -d
 docker-compose exec app composer install
 docker-compose exec app php artisan key:generate
 docker-compose exec app php artisan migrate:refresh --seed
